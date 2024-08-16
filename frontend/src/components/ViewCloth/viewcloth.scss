@@ -1,0 +1,172 @@
+.view {
+    .divs {
+        gap: 30px;
+
+        .left {
+            width: 600px;
+
+            img {
+                width: 100%;
+                object-fit: cover;
+            }
+
+
+        }
+
+        .right {
+            width: 485px;
+
+            .top {
+                display: flex;
+                justify-content: space-between;
+
+
+            }
+
+            .sizes {
+
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                flex-wrap: wrap;
+                gap: 15px;
+
+                .size {
+                    display: flex;
+                    flex-wrap: wrap;
+                    justify-content: center;
+                    width: 20%;
+
+                    button {
+                        border: 1px solid #222;
+                        width: 100%;
+                        padding: 8px;
+                        background-color: #fff;
+                        color: #222;
+                        transition: background-color 0.3s, color 0.3s;
+
+                    }
+
+                    button:focus {
+                        background-color: #222;
+                        color: #fff;
+                    }
+
+                    button:hover {
+                        border: 1px solid #222;
+                        width: 100%;
+                        padding: 8px;
+                        background-color: #222;
+                        color: #fff;
+
+                    }
+                }
+
+
+            }
+
+            .middle {
+
+                button {
+                    border: none;
+                    padding: 10px;
+                    width: 100%;
+                    background-color: #222;
+                    color: white;
+                    display: flex;
+                    justify-content: center;
+                    gap: 5px;
+                    align-items: center;
+                }
+            }
+
+            .bottom {
+                button {
+                    border: 1px solid black;
+                    border-left: none;
+                    border-right: none;
+                    padding: 7px;
+                    width: 100%;
+                    background-color: #fff;
+                    color: black;
+                    display: flex;
+                    justify-content: space-between;
+                    gap: 5px;
+                    align-items: center;
+                }
+
+                ul {
+                    li {
+                        padding: 20px;
+                    }
+                }
+            }
+
+            h4 {
+                font-size: 1.2rem;
+            }
+
+            h5 {
+                font-size: small;
+            }
+        }
+    }
+
+    .imgdiv {
+        gap: 10px;
+
+        .topimg {
+
+            width: 400px;
+
+            img {
+                width: 100%;
+                object-fit: cover;
+
+            }
+        }
+
+        .midimg {
+
+            gap: 5px;
+
+            .mis {
+                width: 300px;
+            }
+
+            img {
+                width: 100%;
+                object-fit: cover;
+            }
+
+        }
+    }
+
+    // .slick-slider {
+    //     width: 100%;
+    //     .carousel-item {
+
+    //        .imgs{
+    //         gap: 5px;
+    //         img {
+
+    //             width: 350px;
+    //         }
+    //        }
+    //     }
+
+    //     .carousel-control-prev-icon,
+    //     .carousel-control-next-icon {
+    //         background-color: black;
+
+    //     }
+    //     .carousel-control-prev,
+    //     .carousel-control-next {
+    //         width: 20px;
+
+
+
+    //     }
+    // }
+
+}
