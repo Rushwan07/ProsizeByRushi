@@ -1,5 +1,6 @@
 const Product = require('../Models/clothModel');
 const User = require('../Models/userModel');
+const stripe = require("stripe")(process.env.STRIPE_SECRET);
 
 
 const getCart = async (req, res) => {
@@ -57,6 +58,38 @@ const addToCart = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+const checkmeout = async (req, res) => {
+  try {
+    const { product } = req.body;
+
+    const line_items = product.map((prod) => ({
+      price_data: {
+        currency: "inr",
+        product_data: {
+          name: prod.heading,
+          images: prod.images[0]?.startsWith("http") ? [prod.images[0]] : [],
+        },
+        unit_amount: Math.round(prod.price * 100),
+      },
+      quantity: 1,
+    }));
+
+    const session = await stripe.checkout.sessions.create({
+      payment_method_types: ["card"],
+      line_items,
+      mode: "payment",
+      success_url: "http://localhost:3000/",
+      cancel_url: "http://localhost:3000/cart",
+    });
+
+    res.json({ id: session.id });
+  } catch (error) {
+    console.error("Stripe error:", error);
+    res.status(500).json({ error: error.message });
+  }
+};
+
+
 
 
 const removeFromCart = async (req, res) => {
@@ -87,5 +120,6 @@ const removeFromCart = async (req, res) => {
 module.exports = {
   addToCart,
   getCart,
-  removeFromCart
+  removeFromCart,
+  checkmeout
 };

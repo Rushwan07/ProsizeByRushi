@@ -8,6 +8,10 @@ import { Link } from "react-router-dom";
 
 import ErrorOutlineOutlinedIcon from "@mui/icons-material/ErrorOutlineOutlined";
 
+import { Elements } from "@stripe/react-stripe-js";
+
+import { loadStripe } from "@stripe/stripe-js";
+
 const Cart = () => {
   const { cart = [], dispatch } = useProductContext();
   const [error, setError] = useState(null);
@@ -38,7 +42,7 @@ const Cart = () => {
     getCart();
   }, [user, dispatch]); // Add user and dispatch as dependencies
 
-  console.log(error);
+  console.log("Carts>>>>>>>>>>>>>", cart);
   const removeFromCart = async (userId, productId) => {
     setError(null);
 
@@ -57,6 +61,30 @@ const Cart = () => {
         type: "REMOVE_FROM_CART",
         payload: { _id: productId, userId },
       });
+    }
+  };
+
+  const makepayment = async () => {
+    const stripe = await loadStripe(
+      "pk_test_51RSx0qR2gSb67rAGCnZkbFPuIIIc3AC6abMdEYB6aphrkwpS5sBITLBrQsRYywv95Jj5cQUJrzS473P8fRibgaIy00pDhEl3di"
+    );
+
+    const body = {
+      product: cart,
+    };
+    const response = await fetch("/api/user/cart/checkout", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(body),
+    });
+    const session = await response.json();
+    console.log(session)
+    const result = await stripe.redirectToCheckout({
+      sessionId: session.id,
+    });
+
+    if (result.error) {
+      console.error(result.error.message);
     }
   };
 
@@ -190,7 +218,7 @@ const Cart = () => {
                   ></button>
                 </div>
                 <div class="modal-body modal-scrollable">
-                  <form>
+                  {/* <form> */}
                     <div class="mb-3">
                       <label for="exampleInputAddress" class="form-label">
                         <small>Address</small>
@@ -274,10 +302,10 @@ const Cart = () => {
                       </label>
                     </div>
 
-                    <button type="submit" class="btn btn-primary">
+                    <button onClick={makepayment} class="btn btn-primary">
                       Order
                     </button>
-                  </form>
+                  {/* </form> */}
                 </div>
                 <div class="modal-footer">
                   {/* <button
