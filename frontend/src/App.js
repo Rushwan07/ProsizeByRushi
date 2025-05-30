@@ -9,6 +9,7 @@ import Cart from "./components/Cart/cart";
 import Favorite from "./components/Favorite/favorite";
 import Message from "./pages/Message/Message";
 import { useState } from "react";
+import Tracker from "./components/Tracker/Tracker";
 
 function App() {
   const [query, setQuery] = useState('');
@@ -41,6 +42,10 @@ function App() {
           <Route
             path="/message/:token"
             element={query ? <Search query={query} setQuery={setQuery}  /> : <Message />}
+          />
+          <Route
+            path="/orders"
+            element={query ? <Search query={query} setQuery={setQuery}  /> : <Tracker />}
           />
         </Routes>
       </BrowserRouter>

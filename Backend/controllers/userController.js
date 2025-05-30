@@ -1,4 +1,5 @@
 const User = require('../Models/userModel');
+const Product = require('../Models/clothModel');
 const nodemailer = require('nodemailer');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
@@ -63,7 +64,7 @@ const verifyEmail = async (req, res) => {
         let name = user.firstname
         let lastname = user.lastname
         let id = user._id
-        
+
 
         res.status(200).json({ name, lastname, email, token, id });
     } catch (error) {
@@ -76,7 +77,7 @@ const loginUser = async (req, res) => {
     try {
         const { email, password } = req.body;
 
-        const user = await User.findOne({ email });
+        const user = await User.findOne({ email }).populate("purchase.product");
 
         if (!user) {
             return res.status(400).json({ error: 'User not found' });
@@ -94,14 +95,13 @@ const loginUser = async (req, res) => {
 
         const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: '1d' });
 
-        let name = user.firstname
-        let lastname = user.lastname
-        let id = user._id
+        const { firstname: name, lastname, _id: id, purchase } = user;
 
-        res.status(200).json({ name, lastname, email, token, id });
+        res.status(200).json({ name, lastname, email, token, id, purchase });
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
 };
+
 
 module.exports = { registerUser, verifyEmail, loginUser };

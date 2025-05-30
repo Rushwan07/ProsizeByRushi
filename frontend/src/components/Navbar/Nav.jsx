@@ -131,14 +131,14 @@ const Nav = ({ setQuery, query }) => {
                 </ul>
               </li>
               <li className="nav-item">
-                <a
-                  className="nav-link active"
+                <Link
+                  className="nav-link"
                   onClick={() => setQuery("")}
                   aria-current="page"
-                  href="/"
+                  to="/orders"
                 >
                   Track Your order
-                </a>
+                </Link>
               </li>
             </ul>
             <form className="d-flex align-items-center">

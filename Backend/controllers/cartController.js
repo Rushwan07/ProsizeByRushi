@@ -60,8 +60,9 @@ const addToCart = async (req, res) => {
 };
 const checkmeout = async (req, res) => {
   try {
-    const { product } = req.body;
+    const { product, userId } = req.body;
 
+    const productDocs = await Product.find({ _id: { $in: product.map(p => p._id) } });
     const line_items = product.map((prod) => ({
       price_data: {
         currency: "inr",
@@ -78,9 +79,28 @@ const checkmeout = async (req, res) => {
       payment_method_types: ["card"],
       line_items,
       mode: "payment",
-      success_url: "http://localhost:3000/",
+      success_url: "http://localhost:3000/orders",
       cancel_url: "http://localhost:3000/cart",
     });
+
+    const user = await User.findById(userId);
+
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    for (const prod of productDocs) {
+      const cartEntry = prod.addToCart.find((entry) => entry.cart.toString() === userId);
+      if (cartEntry) {
+        user.purchase.push({
+          product: prod._id,
+          user_size: cartEntry.user_size
+        });
+      }
+    }
+
+    await user.save();
+
 
     res.json({ id: session.id });
   } catch (error) {

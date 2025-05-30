@@ -71,6 +71,8 @@ const Cart = () => {
 
     const body = {
       product: cart,
+      userId:user.id,
+      
     };
     const response = await fetch("/api/user/cart/checkout", {
       method: "POST",

@@ -1,5 +1,16 @@
 const mongoose = require('mongoose');
 
+const userProducts = new mongoose.Schema({
+    product: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Product'
+    },
+    user_size: {
+        type: String,
+        required: true
+    }
+})
+
 const userSchema = new mongoose.Schema({
     firstname: {
         type: String,
@@ -23,6 +34,7 @@ const userSchema = new mongoose.Schema({
         type: Boolean,
         default: false,
     },
+    purchase: [userProducts]
     // favorites: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Product' }],
 }, { timestamps: true });
 
